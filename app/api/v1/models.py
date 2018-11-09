@@ -1,67 +1,64 @@
+# This is our models file where we store our temporary storage data and methods
+# to manipulate the data. Our parcels list is globally available all classes
+# that inherit the Parcel class
+
+# this is where all our parcels will be appended
+parcels = [
+    {
+        "id": 1,
+        "sender": "Keith",
+        "recipient": "Juma",
+        "destination": "Nairobi",
+        "weight": "500",
+        "pickup": "Ruiru",
+        "location": "Ruiru",
+        "status": "pending"
+    }, {
+        "id": 2,
+        "sender": "John",
+        "recipient": "Steve",
+        "destination": "Kiambu",
+        "weight": "920",
+        "pickup": "Naivasha",
+        "location": "Naivasha",
+        "status": "pending"
+    }, {
+        "id": 3,
+        "sender": "Kris",
+        "recipient": "Peter",
+        "destination": "Vihiga",
+        "weight": "900",
+        "pickup": "Kericho",
+        "location": "Vihiga",
+        "status": "delivered"
+    }
+]
+
+
 class Parcel(object):
     """This is the parcel class"""
 
-    parcels = []
+    def __init__(self):
+        self.db = parcels
+        self.status = 'pending'
 
     def add_parcel(self, sender, recipient, destination, weight, pickup):
-        """The method to create a delivery and append it to our list"""
-        self.sender = sender
-        self.recipient = recipient
-        self.destination = destination
-        self.weight = weight
-        self.pickup = pickup
+        """The method to create a delivery and append
+            it to our list"""
 
-        #this is our payload, our gold
-        gold = {
-        "p_id" : len(parcels) + 1,
-        "sender" : self.sender,
-        "recipient" : self.recipient,
-        "destination" : self.destination,
-        "weight" : self.weight,
-        "pickup" : self.pickup
+        # we check the request object the user sends to
+        # validate it has enough information then add to payload
+
+        data = {
+            'id': len(parcels) + 1,
+            'sender': sender,
+            'recipient': recipient,
+            'destination': destination,
+            'weight': weight,
+            'pickup': pickup,
+            'location': pickup,
+            'status': self.status
         }
 
-        parcels.append(gold)
+        self.db.append(data)
         return 201
-
-        def get_all(self):
-            """Defines the method to get all parcel deliveries GET /parcels"""
-            return parcels
-
-        def get_parcel(self, p_id):
-            """Defines method to get a specific delivery with it's key
-             GET /parcels/<int:id>"""
-             for p in parcels:
-                  if p['p_id'] == p_id:
-                      return p, 200
-                  else:
-                      return 404
-
-        def delete_parcel(self, p_id):
-            """Defines the method for deleting a specific delivery from the
-            database"""
-            for p in parcels:
-                if p['p_id'] == p_id:
-                    return p, 200
-                else:
-                    return 404
-
-        def get_theirs(self, sender):
-            """"Defines the method for getting all deliveries from a specific
-            sender"""
-            for p in parcels:
-                if p["sender"] == sender:
-                    return p, 200
-            else:
-                return "No delivery by {}".format(sender), 404
-
-        def change_location(self, p_id, location):
-            """Defines the method for changing the current location of a delivery"""
-            for p in parcels:
-                if p["p_id"] == p_id:
-                    p["location"] = location
-                    return parcel, 201
-                else:
-                    return "Parcel not found", 404
-
-            parcel
