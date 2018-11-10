@@ -9,6 +9,12 @@ class GenericParcel(Resource):
     """This class contains generic parcels without
     any specificity."""
 
+    def get(self):
+        parcels = parcel_obj.get_all()
+        if parcels == []:
+            return {"Message": "There seem to be no deliveries."}, 200
+        return parcels, 200
+
     def post(self):
         """This method is for adding a delivery to our database."""
 
