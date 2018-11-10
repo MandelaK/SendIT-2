@@ -66,3 +66,11 @@ class Parcel(object):
         def get_all(self):
             """Defines the method to get all parcel deliveries GET /parcels"""
             return self.db
+
+        def get_parcel(self, id):
+            """Defines method to get a specific delivery with it's key
+             GET /parcels/<int:id>"""
+            p = [parcel for parcel in self.db if parcel['id'] == id]
+            if not p:
+                return 404
+            return p, 200
